@@ -32,6 +32,9 @@ const MATCH_CARD ='match';
 document.addEventListener("DOMContentLoaded",function(event){
 	shuffle(myCards);
 	insertCard();
+	createCardAction();
+	const resetBtn = document.getElementById('restart');
+	resetBtn.addEventListener("click",reset);
 });
 
 function insertCard(event){
@@ -70,15 +73,18 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
- for(let i=0; i< myCards.length; i++){
- 	let cardClicked = document.getElementById("card"+i);
-	cardClicked.addEventListener("click",cardAction);
+ function createCardAction(){
+ 	for(let i=0; i< myCards.length; i++){
+ 		let cardClicked = document.getElementById("card"+i);
+		cardClicked.addEventListener("click",cardAction);
+ 	}
  }
+ 
 
 let isOpen =false;
 let openCard =[];
 let matchedCards = [];
-let counter=0; 
+let solvedCounter=0; 
 let gamecounter=0;
 
 function showCard(card){
@@ -96,27 +102,54 @@ function showCard(card){
 	return;	
 }
 
+function removeOldCard(){
+	for(let i=0;i<myCards.length;i++){
+		let oldCardEle = document.getElementById('card'+i);
+		oldCardEle.innerHTML="";
+	}
+	return;
+}
+
+function reset(){
+	if(matchedCards.length>0){
+		for(let matchedCard of matchedCards){
+			matchedCard.classList.remove(MATCH_CARD);
+		}
+	}
+	hideCard();
+	gamecounter=0;
+	isOpen=false;
+	removeOldCard();
+	shuffle(myCards);
+	insertCard();
+	createCardAction();
+	updateOnScreen();
+}
+
 function makeMatch(){
 	openCard[0].classList.add(MATCH_CARD);
 	openCard[1].classList.add(MATCH_CARD);
 	matchedCards.push(openCard[0]);
 	matchedCards.push(openCard[1]);
-	openCard.pop();
-	openCard.pop();
-	counter+=2;
-	if(counter == myCards.length){
+	hideCard();
+	solvedCounter+=2;
+	if(solvedCounter == myCards.length){
 		alert("Solved");
 	}
 	return;
 }
 
 function hideCard(){
-	openCard[0].classList.remove(OPEN_CARD);
-	openCard[0].classList.remove(SHOW_CARD);
-	openCard[1].classList.remove(OPEN_CARD);
-	openCard[1].classList.remove(SHOW_CARD);
-	openCard.pop();
-	openCard.pop();
+	if(openCard.length>0){
+		openCard[0].classList.remove(OPEN_CARD);
+		openCard[0].classList.remove(SHOW_CARD);
+		if(openCard.length == 2){
+			openCard[1].classList.remove(OPEN_CARD);
+			openCard[1].classList.remove(SHOW_CARD);
+			openCard.pop();
+		}
+		openCard.pop();
+	}
 	return;
 }
 
@@ -127,7 +160,6 @@ function updateOnScreen(){
 
 function cardAction(event){
 	showCard(event.target);
-	console.log("Executed here");
 	if(isOpen == false){
 		isOpen= !isOpen;
 	}else{
