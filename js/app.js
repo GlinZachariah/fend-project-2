@@ -76,38 +76,67 @@ function shuffle(array) {
  }
 
 let isOpen =false;
-let openCard ='';
-let matchedCards = []; 
+let openCard =[];
+let matchedCards = [];
+let counter=0; 
+let gamecounter=0;
 
-function showCard(){
-	event.target.classList.add(OPEN_CARD);
-	event.target.classList.add(SHOW_CARD);
+function showCard(card){
+	card.classList.add(OPEN_CARD);
+	card.classList.add(SHOW_CARD);
+	if(openCard.length>0){
+		if(openCard[0].id != card.id){
+			openCard.push(card);
+			gamecounter+=1;
+		}
+	}else{
+		openCard.push(card);
+		gamecounter+=1;
+	}
+	return;	
 }
 
 function makeMatch(){
-	openCard.classList.add(MATCH_CARD);
-	event.target.classList.add(MATCH_CARD);
+	openCard[0].classList.add(MATCH_CARD);
+	openCard[1].classList.add(MATCH_CARD);
+	matchedCards.push(openCard[0]);
+	matchedCards.push(openCard[1]);
+	openCard.pop();
+	openCard.pop();
+	counter+=2;
+	if(counter == myCards.length){
+		alert("Solved");
+	}
+	return;
 }
 
 function hideCard(){
-	openCard.classList.remove(OPEN_CARD);
-	openCard.classList.remove(SHOW_CARD);
-	event.target.classList.remove(OPEN_CARD);
-	event.target.classList.remove(SHOW_CARD);
-	console.log(event.target);
+	openCard[0].classList.remove(OPEN_CARD);
+	openCard[0].classList.remove(SHOW_CARD);
+	openCard[1].classList.remove(OPEN_CARD);
+	openCard[1].classList.remove(SHOW_CARD);
+	openCard.pop();
+	openCard.pop();
+	return;
+}
+
+function updateOnScreen(){
+	const updateMove =document.getElementById("moves");
+	updateMove.innerHTML=""+gamecounter;
 }
 
 function cardAction(event){
-	showCard();
+	showCard(event.target);
+	console.log("Executed here");
 	if(isOpen == false){
-		openCard =event.target;
 		isOpen= !isOpen;
 	}else{
-		if(openCard.children[0].classList[1] == event.target.children[0].classList[1] && openCard.id != event.target.id ){
-			setTimeout(makeMatch(this.event),3000);
+		isOpen= !isOpen;
+		if(openCard[0].children[0].classList[1] == openCard[1].children[0].classList[1] && openCard[0].id != openCard[1].id ){
+			setTimeout(makeMatch(),3000);
 		}else{
-			isOpen= !isOpen;
-			setTimeout(hideCard(this.event),5000);
+			setTimeout(hideCard(),10000);
 		}	
 	}
+	updateOnScreen();
 }
