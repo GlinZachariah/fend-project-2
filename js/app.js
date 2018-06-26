@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded",function(event){
 	shuffle(myCards);
 	insertCard();
 	createCardAction();
+	createRating();
 	const resetBtn = document.getElementById('restart');
 	resetBtn.addEventListener("click",reset);
 });
@@ -79,6 +80,53 @@ function shuffle(array) {
 		cardClicked.addEventListener("click",cardAction);
  	}
  }
+
+const star1 =document.getElementById('star1');
+const star2 =document.getElementById('star2');
+const star3 =document.getElementById('star3');
+const STAR='fa-star';
+const NO_STAR='fa-star-o';
+let star1List =star1.classList;
+let star2List =star2.classList;
+let star3List =star3.classList;
+
+function removeOldRating(){
+	if(star1List.contains(STAR)){
+	 		star1List.toggle(STAR);
+ 		}else if(star1List.contains(NO_STAR)){
+ 			star1List.toggle(NO_STAR);
+ 		}
+ 		if(star2List.contains(STAR)){
+ 			star2List.toggle(STAR);
+ 		}else if(star2List.contains(NO_STAR)){
+ 			star2List.toggle(NO_STAR);
+ 		}
+ 		if(star3List.contains(STAR)){
+ 			star3List.toggle(STAR);
+ 		}else if(star3List.contains(NO_STAR)){
+ 			star3List.toggle(NO_STAR);
+ 		}
+}
+ function createRating(){
+ 		removeOldRating();
+ 	if(gamecounter==0){
+ 		star1List.toggle(NO_STAR);
+ 		star2List.toggle(NO_STAR);
+ 		star3List.toggle(NO_STAR);
+ 	}else if(gamecounter <=30){
+ 		star1List.toggle(STAR);
+ 		star2List.toggle(STAR);
+ 		star3List.toggle(STAR);
+ 	}else if(gamecounter <=40){
+ 		star1List.toggle(STAR);
+ 		star2List.toggle(STAR);
+ 		star3List.toggle(NO_STAR);
+ 	}else{
+ 		star1List.toggle(STAR);
+ 		star2List.toggle(NO_STAR);
+ 		star3List.toggle(NO_STAR);
+ 	}
+ }
  
 
 let isOpen =false;
@@ -86,6 +134,8 @@ let openCard =[];
 let matchedCards = [];
 let solvedCounter=0; 
 let gamecounter=0;
+let starRating =0;
+
 
 function showCard(card){
 	card.classList.add(OPEN_CARD);
@@ -94,10 +144,14 @@ function showCard(card){
 		if(openCard[0].id != card.id){
 			openCard.push(card);
 			gamecounter+=1;
+			isOpen=!isOpen;
+		}else{
+			hideCard();
 		}
 	}else{
 		openCard.push(card);
 		gamecounter+=1;
+		isOpen=!isOpen;
 	}
 	return;	
 }
@@ -118,7 +172,9 @@ function reset(){
 	}
 	hideCard();
 	gamecounter=0;
+	createRating();
 	isOpen=false;
+	starRating=0;
 	removeOldCard();
 	shuffle(myCards);
 	insertCard();
@@ -132,9 +188,16 @@ function makeMatch(){
 	matchedCards.push(openCard[0]);
 	matchedCards.push(openCard[1]);
 	hideCard();
-	solvedCounter+=2;
-	if(solvedCounter == myCards.length){
-		alert("Solved");
+	if(solvedCounter <= myCards.length){
+		solvedCounter+=2;
+		console.log(solvedCounter);
+		if(gamecounter <= 30){
+
+		} 
+		if(solvedCounter ==myCards.length){
+			createRating();
+			setTimeout(alert("Solved"),3000);
+		}	
 	}
 	return;
 }
@@ -159,16 +222,21 @@ function updateOnScreen(){
 }
 
 function cardAction(event){
-	showCard(event.target);
 	if(isOpen == false){
-		isOpen= !isOpen;
+		showCard(event.target);
 	}else{
+		showCard(event.target);
 		isOpen= !isOpen;
-		if(openCard[0].children[0].classList[1] == openCard[1].children[0].classList[1] && openCard[0].id != openCard[1].id ){
-			setTimeout(makeMatch(),3000);
-		}else{
-			setTimeout(hideCard(),10000);
-		}	
+		//console.log(openCard);
+		if(openCard.length>1){
+			if(openCard[0].children[0].classList[1] == openCard[1].children[0].classList[1] ){
+				if(openCard[0].id != openCard[1].id ){
+					setTimeout(makeMatch(),3000);
+				}
+			}else{
+				setTimeout(hideCard(),10000);
+			}	
+		}
 	}
 	updateOnScreen();
 }
