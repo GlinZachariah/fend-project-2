@@ -1,15 +1,18 @@
 /*
  * Create a list that holds all of your cards
  */
- const starIcon = "fa-diamond";
- const anchorIcon = "fa-anchor";
- const boltIcon = "fa-bolt";
- const cubeIcon = "fa-cube";
- const leafIcon = "fa-leaf";
- const bicycleIcon = "fa-bicycle";
- const bombIcon = "fa-bomb";
- const planeIcon = "fa-plane";
+
+ //Card value
+ const starIcon = "fa fa-diamond";
+ const anchorIcon = "fa fa-anchor";
+ const boltIcon = "fa fa-bolt";
+ const cubeIcon = "fa fa-cube";
+ const leafIcon = "fa fa-leaf";
+ const bicycleIcon = "fa fa-bicycle";
+ const bombIcon = "fa fa-bomb";
+ const planeIcon = "fa fa-plane";
  
+ //Card list that holds equal pair of cards
 const myCards =[starIcon,starIcon,
 				boltIcon,boltIcon,
 				anchorIcon,anchorIcon,
@@ -25,24 +28,36 @@ const myCards =[starIcon,starIcon,
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+
 // Display cards function
-const OPEN_CARD = 'open';
-const SHOW_CARD = 'show'; 
-const MATCH_CARD ='match';
+const OPEN_CARD = "open";
+const SHOW_CARD = "show"; 
+const MATCH_CARD ="match";
+
+//Function performed on Content Loading
 document.addEventListener("DOMContentLoaded",function(event){
+	console.log("Welcome tp Commentry of game!");
 	shuffle(myCards);
 	insertCard();
 	createCardAction();
 	createRating();
-	const resetBtn = document.getElementById('restart');
-	resetBtn.addEventListener("click",reset);
+	createRestart();
 });
 
+//Function to create Restart action on click
+function createRestart(){
+	console.log("Game Restart Action added");
+	const resetBtn = document.getElementById('restart');
+	resetBtn.addEventListener("click",reset);
+}
+
+//Function to create card Layout and place into the card List
 function insertCard(event){
+	console.log("Inserted the cards");
 	for(let i=0; i< myCards.length; i++){
+		//create <i> Element with given order of cards and append rach og them to the list 
 		let cardElement = document.createElement('i');
-		cardElement.classList.add("fa");
-		cardElement.classList.add(myCards[i]);
+		cardElement.className+=myCards[i];
 		let cardEle = document.getElementById("card"+i);
 		cardEle.appendChild(cardElement);
 	}
@@ -50,7 +65,9 @@ function insertCard(event){
 };
 
 // Shuffle function from http://stackoverflow.com/a/2450976
+// Function to shuffle the cards
 function shuffle(array) {
+	console.log("Shuffled the cards");
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
@@ -74,23 +91,86 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+//Function to create Event Listener for card on-click
  function createCardAction(){
+ 	console.log("Created card actions!");
  	for(let i=0; i< myCards.length; i++){
  		let cardClicked = document.getElementById("card"+i);
 		cardClicked.addEventListener("click",cardAction);
  	}
  }
 
+//Game default values
+let isOpen =false;
+let openCard =[];
+let matchedCards = [];
+let matchedCardIds =[];
+let solvedCounter=0; 
+let gamecounter=0;
+let starRating =0;
+
+//Fucntion to add card Action
+function cardAction(event){
+	console.log("Card Clicked!");
+	if(isOpen == false){
+		displayCard(event.target);
+	}else{
+		if(compareCard(event.target)){
+			console.log("card click different");
+			if(openCard.length>1){
+				if(openCard[0].children[0].classList[1] == openCard[1].children[0].classList[1] && openCard[0].id != openCard[1].id){
+						setTimeout(makeMatch(),3000);
+				}else{
+						setTimeout(hideCard(),10000);
+				}	
+			}
+		}
+	}
+	updateOnScreen();
+}
+
+// function to show the card on click
+function displayCard(card){
+	console.log("Card displayed!");
+	card.classList.add(OPEN_CARD);
+	card.classList.add(SHOW_CARD);
+	openCard.push(card);
+	gamecounter+=1;
+	isOpen=!isOpen;
+	return;
+}
+
+//function to compare the cards
+function compareCard(card){
+	if(card.classList.contains("fa")){
+		card =card.parentElement;
+	}
+	if(openCard[0].id != card.id){
+		displayCard(card);
+	}else{
+		console.log("same card!");
+		return false;
+	}
+	console.log("not same card!");
+	return true;
+}
+
+//Star Rating Elements
 const star1 =document.getElementById('star1');
 const star2 =document.getElementById('star2');
 const star3 =document.getElementById('star3');
 const STAR='fa-star';
 const NO_STAR='fa-star-o';
+
+//Class List of each star
 let star1List =star1.classList;
 let star2List =star2.classList;
 let star3List =star3.classList;
 
+//Function to remove old Rating (if exists)
 function removeOldRating(){
+	console.log("Removed Old Rating!");
 	if(star1List.contains(STAR)){
 	 		star1List.toggle(STAR);
  		}else if(star1List.contains(NO_STAR)){
@@ -107,56 +187,37 @@ function removeOldRating(){
  			star3List.toggle(NO_STAR);
  		}
 }
- function createRating(){
- 		removeOldRating();
- 	if(gamecounter==0){
+
+//Function to create Rating
+function createRating(){
+	console.log("Created Rating!");
+ 	removeOldRating();
+ 	if(gamecounter==0 || solvedCounter<16){
+ 		// 0 star when game begins
  		star1List.toggle(NO_STAR);
  		star2List.toggle(NO_STAR);
  		star3List.toggle(NO_STAR);
- 	}else if(gamecounter <=30){
+ 	}else if(gamecounter <=30 && solvedCounter == 16){
+ 		// 3 star when gamecounter <= 30
  		star1List.toggle(STAR);
  		star2List.toggle(STAR);
  		star3List.toggle(STAR);
- 	}else if(gamecounter <=40){
+ 	}else if(gamecounter <=40 && solvedCounter == 16){
+ 		// 2 star when gamecounter <= 40
  		star1List.toggle(STAR);
  		star2List.toggle(STAR);
  		star3List.toggle(NO_STAR);
  	}else{
+ 		// 1 star when gamecounter <= 50
  		star1List.toggle(STAR);
  		star2List.toggle(NO_STAR);
  		star3List.toggle(NO_STAR);
  	}
  }
- 
 
-let isOpen =false;
-let openCard =[];
-let matchedCards = [];
-let solvedCounter=0; 
-let gamecounter=0;
-let starRating =0;
-
-
-function showCard(card){
-	card.classList.add(OPEN_CARD);
-	card.classList.add(SHOW_CARD);
-	if(openCard.length>0){
-		if(openCard[0].id != card.id){
-			openCard.push(card);
-			gamecounter+=1;
-			isOpen=!isOpen;
-		}else{
-			hideCard();
-		}
-	}else{
-		openCard.push(card);
-		gamecounter+=1;
-		isOpen=!isOpen;
-	}
-	return;	
-}
-
+//Function to remove Old card Elements
 function removeOldCard(){
+	console.log("Removed old cards");
 	for(let i=0;i<myCards.length;i++){
 		let oldCardEle = document.getElementById('card'+i);
 		oldCardEle.innerHTML="";
@@ -164,45 +225,58 @@ function removeOldCard(){
 	return;
 }
 
-function reset(){
+//Function to remove matched cards
+function removeMatch(){
+	console.log("Removed matched cards");
 	if(matchedCards.length>0){
 		for(let matchedCard of matchedCards){
 			matchedCard.classList.remove(MATCH_CARD);
 		}
+		console.log(matchedCards.length);
+		matchedCards=[];
 	}
-	hideCard();
+}
+
+//Function to reset the game.
+function reset(){
+	console.log("RESET CLICKED!");
+	removeMatch();
+	hideCard();	
 	gamecounter=0;
-	createRating();
 	isOpen=false;
 	starRating=0;
+	createRating();
 	removeOldCard();
-	shuffle(myCards);
+	//shuffle(myCards);
 	insertCard();
 	createCardAction();
 	updateOnScreen();
 }
 
+//Function to store matched cards
 function makeMatch(){
+	console.log("Match found!");
 	openCard[0].classList.add(MATCH_CARD);
 	openCard[1].classList.add(MATCH_CARD);
+	//console.log("OpenCard: "+openCard[0].id)
+	//console.log("OpenCard: "+openCard[1].id)
+	openCard[0].removeEventListener("click",cardAction);
+	openCard[1].removeEventListener("click",cardAction);
 	matchedCards.push(openCard[0]);
 	matchedCards.push(openCard[1]);
 	hideCard();
-	if(solvedCounter <= myCards.length){
-		solvedCounter+=2;
-		console.log(solvedCounter);
-		if(gamecounter <= 30){
-
-		} 
-		if(solvedCounter ==myCards.length){
-			createRating();
-			setTimeout(alert("Solved"),3000);
-		}	
+	//console.log("solvedCounter: "+solvedCounter);
+	solvedCounter+=2;
+	if(solvedCounter == myCards.length){
+		createRating();
+		setTimeout(alert("Congratulations! You won!"),3000);			
 	}
 	return;
 }
 
+//Function to hide cards
 function hideCard(){
+	console.log("Hide Cards!");
 	if(openCard.length>0){
 		openCard[0].classList.remove(OPEN_CARD);
 		openCard[0].classList.remove(SHOW_CARD);
@@ -216,27 +290,10 @@ function hideCard(){
 	return;
 }
 
+//Function to update the game moves
 function updateOnScreen(){
+	console.log("Update Moves!");
 	const updateMove =document.getElementById("moves");
 	updateMove.innerHTML=""+gamecounter;
 }
 
-function cardAction(event){
-	if(isOpen == false){
-		showCard(event.target);
-	}else{
-		showCard(event.target);
-		isOpen= !isOpen;
-		//console.log(openCard);
-		if(openCard.length>1){
-			if(openCard[0].children[0].classList[1] == openCard[1].children[0].classList[1] ){
-				if(openCard[0].id != openCard[1].id ){
-					setTimeout(makeMatch(),3000);
-				}
-			}else{
-				setTimeout(hideCard(),10000);
-			}	
-		}
-	}
-	updateOnScreen();
-}
