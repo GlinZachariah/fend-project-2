@@ -113,21 +113,23 @@ let starRating =0;
 //Fucntion to add card Action
 function cardAction(event){
 	console.log("Card Clicked!");
-	if(isOpen == false){
-		displayCard(event.target);
-	}else{
-		if(compareCard(event.target)){
-			console.log("card click different");
-			if(openCard.length>1){
-				if(openCard[0].children[0].classList[1] == openCard[1].children[0].classList[1] && openCard[0].id != openCard[1].id){
-						setTimeout(function(){makeMatch()},150);
-				}else{
-						setTimeout(function(){hideCard()},150);
-				}	
+	if(openCard.length<2){
+		if(isOpen == false){
+			displayCard(event.target);
+		}else{
+			if(compareCard(event.target)){
+				console.log("card click different");
+				if(openCard.length>1){
+					if(openCard[0].children[0].classList[1] == openCard[1].children[0].classList[1] && openCard[0].id != openCard[1].id){
+							setTimeout(function(){makeMatch()},500);
+					}else{
+						    setTimeout(function(){hideCard()},500);
+					}	
+				}
 			}
 		}
+		updateOnScreen();
 	}
-	updateOnScreen();
 }
 
 // function to show the card on click

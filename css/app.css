@@ -26,11 +26,16 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: rgba(5,102,255,0.25);
+
 }
 
 h1 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Chela One', cursive;
     font-weight: 300;
+    font-size: 72px;
+    color: #ffffff;
+    text-shadow: 1px 5px 5px grey;
 }
 
 /*
@@ -40,10 +45,10 @@ h1 {
 .deck {
     width: 660px;
     min-height: 680px;
-    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    background-image: linear-gradient(to right, #05668D , #028090);
     padding: 32px;
     border-radius: 10px;
-    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 173, 0.5);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -52,6 +57,9 @@ h1 {
 }
 
 .deck .card {
+    transform: rotateY(180deg);
+    transition-duration: 250ms;
+
     height: 125px;
     width: 125px;
     background: #2e3d49;
@@ -62,20 +70,25 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    box-shadow: 5px 2px 20px 0 rgba(1, 128, 144, 0.5);
 }
 
 .deck .card.open {
-    transform: rotateY(0);
+    /*original  transform: rotateY(0);*/
+    transform: skewY(180deg);
+    transition-duration: 250ms;
     background: #02b3e4;
     cursor: default;
 }
+
+
 
 .deck .card.show {
     font-size: 33px;
 }
 
 .deck .card.match {
+    transform: rotateY(0deg);
     cursor: default;
     background: #02ccba;
     font-size: 33px;
@@ -89,6 +102,9 @@ h1 {
     text-align: left;
     width: 345px;
     margin-bottom: 10px;
+    border: 5px block;
+    border-radius: 8px;
+    border-color: black;
 }
 
 .score-panel .stars {
