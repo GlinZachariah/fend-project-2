@@ -120,9 +120,9 @@ function cardAction(event){
 			console.log("card click different");
 			if(openCard.length>1){
 				if(openCard[0].children[0].classList[1] == openCard[1].children[0].classList[1] && openCard[0].id != openCard[1].id){
-						setTimeout(makeMatch(),3000);
+						setTimeout(function(){makeMatch()},150);
 				}else{
-						setTimeout(hideCard(),10000);
+						setTimeout(function(){hideCard()},150);
 				}	
 			}
 		}
@@ -137,6 +137,7 @@ function displayCard(card){
 	card.classList.add(SHOW_CARD);
 	openCard.push(card);
 	gamecounter+=1;
+	createRating();
 	isOpen=!isOpen;
 	return;
 }
@@ -192,24 +193,24 @@ function removeOldRating(){
 function createRating(){
 	console.log("Created Rating!");
  	removeOldRating();
- 	if(gamecounter==0 || solvedCounter<16){
- 		// 0 star when game begins
- 		star1List.toggle(NO_STAR);
- 		star2List.toggle(NO_STAR);
- 		star3List.toggle(NO_STAR);
- 	}else if(gamecounter <=30 && solvedCounter == 16){
+ 	if(gamecounter <=30 ){
  		// 3 star when gamecounter <= 30
  		star1List.toggle(STAR);
  		star2List.toggle(STAR);
  		star3List.toggle(STAR);
- 	}else if(gamecounter <=40 && solvedCounter == 16){
+ 	}else if(gamecounter <=40 ){
  		// 2 star when gamecounter <= 40
  		star1List.toggle(STAR);
  		star2List.toggle(STAR);
  		star3List.toggle(NO_STAR);
- 	}else{
+ 	}else if(gamecounter<=50){
  		// 1 star when gamecounter <= 50
  		star1List.toggle(STAR);
+ 		star2List.toggle(NO_STAR);
+ 		star3List.toggle(NO_STAR);
+ 	}else{
+ 		// 0 star when gamecounter > 50
+ 		star1List.toggle(NO_STAR);
  		star2List.toggle(NO_STAR);
  		star3List.toggle(NO_STAR);
  	}
@@ -268,7 +269,7 @@ function makeMatch(){
 	//console.log("solvedCounter: "+solvedCounter);
 	solvedCounter+=2;
 	if(solvedCounter == myCards.length){
-		createRating();
+		
 		setTimeout(alert("Congratulations! You won!"),3000);			
 	}
 	return;
