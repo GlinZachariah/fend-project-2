@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded",function(event){
 	insertCard();
 	createCardAction();
 	createRating();
+	startTimer(true);
 	createRestart();
 });
 
@@ -109,6 +110,8 @@ let matchedCardIds =[];
 let solvedCounter=0; 
 let gamecounter=0;
 let starRating =0;
+let gametimer=0;
+
 
 //Fucntion to add card Action
 function cardAction(event){
@@ -240,6 +243,7 @@ function removeMatch(){
 	}
 }
 
+
 //Function to reset the game.
 function reset(){
 	console.log("RESET CLICKED!");
@@ -248,9 +252,11 @@ function reset(){
 	gamecounter=0;
 	isOpen=false;
 	starRating=0;
+	gametimer=0;
+	solvedCounter=0;
 	createRating();
 	removeOldCard();
-	//shuffle(myCards);
+	shuffle(myCards);
 	insertCard();
 	createCardAction();
 	updateOnScreen();
@@ -297,6 +303,45 @@ function hideCard(){
 function updateOnScreen(){
 	console.log("Update Moves!");
 	const updateMove =document.getElementById("moves");
-	updateMove.innerHTML=""+gamecounter;
+	if(gamecounter<10){
+		var counterText=" Move";
+	}else{
+		var counterText=" Moves";
+	}
+	updateMove.innerHTML=gamecounter+counterText;
 }
 
+function updateTimer(time){
+	const timer= document.getElementById("gametime");
+	var timerText="";
+	if(time>=60){
+			gameMin =parseInt(time/60);
+			time =time%60;
+			if(gameMin<10){
+				var timerText=gameMin+" Minute ";
+			}else{
+				var timerText=gameMin+" Minutes ";
+			}
+	}
+	if(time<10){
+		var timerText=timerText+time+" Second";
+	}else{
+		var timerText=timerText+time+" Seconds";
+	}
+	timer.innerText=""+ timerText;
+	return;
+	
+}
+
+function startTimer(startTime){
+	if(startTime){
+		setTimeout(function(){
+			console.log("gametimer: "+gametimer);
+			if(solvedCounter < myCards.length){
+				gametimer+=1;
+				updateTimer(gametimer);				
+			}	
+			startTimer(true);
+		},1000);
+	}
+}
