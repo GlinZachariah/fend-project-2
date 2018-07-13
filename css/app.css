@@ -100,11 +100,17 @@ h1 {
 
 .score-panel {
     text-align: left;
-    width: 345px;
+    width: 660px;
     margin-bottom: 10px;
     border: 5px block;
     border-radius: 8px;
-    border-color: black;
+     font-family: 'Josefin Sans', cursive;
+    background-image: linear-gradient(0deg, #4c8ae7 ,#2756a1);
+    background-color: red;
+    padding: 25px;
+    line-height: 30px;
+    color:#ffffff;
+    box-shadow: 5px 2px 20px 0 rgba(1, 128, 144, 0.5);
 }
 
 .score-panel .stars {
@@ -119,7 +125,23 @@ h1 {
     display: inline-block;
 }
 
-.score-panel .restart {
-    float: right;
+.restart {
+    background: #ffffff;
+    color:#2e3d49;
+    font-size: 25px;
+    font-family: 'Chela One', cursive;
+    border: 0px;
+    border-radius: 15px;
+    padding: 10px;
+    width: 150px;
+    margin:0 auto;
+    display: block;
     cursor: pointer;
+}
+.subtitle{
+    text-transform: uppercase;
+}
+
+.subtitle_val{
+    float: right;
 }

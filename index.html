@@ -17,17 +17,23 @@
         </header>
 
         <div class="score-panel">
-        	<ul class="stars">
-        		<li><i id="star1" class="fa"></i></li>
-        		<li><i id="star2" class="fa"></i></li>
-        		<li><i id="star3" class="fa"></i></li>
-        	</ul>
-
-        	<div id="moves">0 Moves</div>
-            <div id="gametime">0 Second</div>
-            <div class="restart" id="restart">
-        		<i class="fa fa-repeat"> RESTART</i>
-        	</div>
+            	   <span class="subtitle">Score:</span> <span class="subtitle_val"> <ul  class="stars">
+                		<li><i id="star1" class="fa"></i></li>
+                		<li><i id="star2" class="fa"></i></li>
+                		<li><i id="star3" class="fa"></i></li>
+            	   </ul>
+                    </span>
+            <div>
+        	   <span class="subtitle">Moves:</span><span class="subtitle_val" id="moves">0 Move</span>
+            </div>
+            <div>
+                <span class="subtitle">Time:</span><span class="subtitle_val" id="gametime">0 Second</span>
+            </div>
+            <div>
+                <button class="restart" id="restart">
+            		<i class="fa fa-repeat"></i>&nbsp RESTART
+            	</button>
+            </div>
         </div>
 
         <ul class="deck">
