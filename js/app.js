@@ -104,6 +104,7 @@ function shuffle(array) {
 
 //Game default values
 let isOpen =false;
+let isModalOpen=false;
 let openCard =[];
 let matchedCards = [];
 let matchedCardIds =[];
@@ -247,6 +248,10 @@ function removeMatch(){
 //Function to reset the game.
 function reset(){
 	console.log("RESET CLICKED!");
+	if(isModalOpen){
+		isModalOpen=false;
+		toggleModal();
+	}
 	removeMatch();
 	hideCard();	
 	gamecounter=0;
@@ -277,8 +282,8 @@ function makeMatch(){
 	//console.log("solvedCounter: "+solvedCounter);
 	solvedCounter+=2;
 	if(solvedCounter == myCards.length){
-		
-		setTimeout(alert("Congratulations! You won!"),3000);			
+		isModalOpen=true;		
+		setTimeout(function(){toggleModal();},1000);			
 	}
 	return;
 }
@@ -336,7 +341,7 @@ function updateTimer(time){
 function startTimer(startTime){
 	if(startTime){
 		setTimeout(function(){
-			console.log("gametimer: "+gametimer);
+			// console.log("gametimer: "+gametimer);
 			if(solvedCounter < myCards.length){
 				gametimer+=1;
 				updateTimer(gametimer);				
@@ -344,4 +349,11 @@ function startTimer(startTime){
 			startTimer(true);
 		},1000);
 	}
+}
+
+//Function to create the modal
+function toggleModal(){
+	document.querySelector('.score-panel').classList.toggle('modal_center');
+	document.querySelector('.modal_outer').classList.toggle('display_modal');
+	document.querySelector('#game_deck').classList.toggle('game_deck');
 }
