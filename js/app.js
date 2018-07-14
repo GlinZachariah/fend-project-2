@@ -36,6 +36,17 @@ const MATCH_CARD ="match";
 
 //Function performed on Content Loading
 document.addEventListener("DOMContentLoaded",function(event){
+	const start = document.getElementById('start');
+	const firstModal= document.querySelector('.first_modal');
+	start.addEventListener('click',function(){
+		firstModal.style.display="none";
+		startGame();
+	});
+});
+
+
+//Functio to Start the game
+function startGame(){
 	console.log("Welcome tp Commentry of game!");
 	shuffle(myCards);
 	insertCard();
@@ -43,8 +54,7 @@ document.addEventListener("DOMContentLoaded",function(event){
 	createRating();
 	startTimer(true);
 	createRestart();
-});
-
+}
 //Function to create Restart action on click
 function createRestart(){
 	console.log("Game Restart Action added");
@@ -283,7 +293,7 @@ function makeMatch(){
 	solvedCounter+=2;
 	if(solvedCounter == myCards.length){
 		isModalOpen=true;		
-		setTimeout(function(){toggleModal();},1000);			
+		setTimeout(function(){toggleModal();},500);			
 	}
 	return;
 }
@@ -351,7 +361,7 @@ function startTimer(startTime){
 	}
 }
 
-//Function to create the modal
+//Function to toggle the modal
 function toggleModal(){
 	document.querySelector('.score-panel').classList.toggle('modal_center');
 	document.querySelector('.modal_outer').classList.toggle('display_modal');

@@ -12,11 +12,14 @@
 <body>
 
     <div class="container">
+        <!-- Title of the game -->
         <header>
             <h1>Matching Game</h1>
         </header>
-        <div class="modal_outer">    
+        <div class="modal_outer"> 
+         <!--Score panel  -->
             <div class="score-panel">
+                <!-- Star Rating  -->
                 	   <span class="subtitle">Score:</span> <span class="subtitle_val"> <ul  class="stars">
                     		<li><i id="star1" class="fa"></i></li>
                     		<li><i id="star2" class="fa"></i></li>
@@ -24,20 +27,25 @@
                 	   </ul>
                         </span>
                 <div>
+                    <!-- Move Counter -->
             	   <span class="subtitle">Moves:</span><span class="subtitle_val" id="moves">0 Move</span>
                 </div>
                 <div>
+                    <!-- Game Timer -->
                     <span class="subtitle">Time:</span><span class="subtitle_val" id="gametime">0 Second</span>
                 </div>
                 <div>
+                    <!-- Restart Button -->
                     <button class="restart" id="restart">
-                		<i class="fa fa-repeat"></i>&nbsp RESTART
+                		<i class="fa fa-repeat"></i> RESTART
                 	</button>
                 </div>
             </div>
         </div>
-        <div id="game_deck" class="">
+        <!-- Card Deck -->
+        <div id="game_deck">
             <ul class="deck">
+                <!-- All Cards -->
                 <li id="card0" class="card">
                 </li>
                 <li id="card1" class="card">
@@ -72,7 +80,21 @@
                 </li>            
             </ul>
         </div>
+        <!-- Instructions modal -->
+        <div class="first_modal">
+            <div class="score-panel guide">
+                    <h1>Instructions</h1>
+                    <p>If Moves Less than 30 => 3 star</p>
+                    <p>If Moves Less than 40 => 2 star</p>
+                    <p>If Moves Less than 50 => 1 star</p>
+                    <button class="restart" id="start">
+                            <i class="fa fa-play"></i> START
+                    </button>
+            </div>
+        </div> 
     </div>
+
+    
     
 
     <script src="js/app.js"></script>
