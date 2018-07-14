@@ -2,7 +2,7 @@
  * Create a list that holds all of your cards
  */
 
- //Card value
+ //List of the card values
  const starIcon = "fa fa-diamond";
  const anchorIcon = "fa fa-anchor";
  const boltIcon = "fa fa-bolt";
@@ -34,7 +34,7 @@ const OPEN_CARD = "open";
 const SHOW_CARD = "show"; 
 const MATCH_CARD ="match";
 
-//Function performed on Content Loading
+//Function performed on Content Loading to display the instructions.
 document.addEventListener("DOMContentLoaded",function(event){
 	const start = document.getElementById('start');
 	const firstModal= document.querySelector('.first_modal');
@@ -45,9 +45,8 @@ document.addEventListener("DOMContentLoaded",function(event){
 });
 
 
-//Functio to Start the game
+//Function to Start the game
 function startGame(){
-	console.log("Welcome tp Commentry of game!");
 	shuffle(myCards);
 	insertCard();
 	createCardAction();
@@ -57,16 +56,14 @@ function startGame(){
 }
 //Function to create Restart action on click
 function createRestart(){
-	console.log("Game Restart Action added");
 	const resetBtn = document.getElementById('restart');
 	resetBtn.addEventListener("click",reset);
 }
 
 //Function to create card Layout and place into the card List
 function insertCard(event){
-	console.log("Inserted the cards");
 	for(let i=0; i< myCards.length; i++){
-		//create <i> Element with given order of cards and append rach og them to the list 
+		//create <i> Element with given order of cards and append rach of them to the list 
 		let cardElement = document.createElement('i');
 		cardElement.className+=myCards[i];
 		let cardEle = document.getElementById("card"+i);
@@ -78,9 +75,7 @@ function insertCard(event){
 // Shuffle function from http://stackoverflow.com/a/2450976
 // Function to shuffle the cards
 function shuffle(array) {
-	console.log("Shuffled the cards");
     var currentIndex = array.length, temporaryValue, randomIndex;
-
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -105,7 +100,6 @@ function shuffle(array) {
 
 //Function to create Event Listener for card on-click
  function createCardAction(){
- 	console.log("Created card actions!");
  	for(let i=0; i< myCards.length; i++){
  		let cardClicked = document.getElementById("card"+i);
 		cardClicked.addEventListener("click",cardAction);
@@ -126,13 +120,11 @@ let gametimer=0;
 
 //Fucntion to add card Action
 function cardAction(event){
-	console.log("Card Clicked!");
 	if(openCard.length<2){
 		if(isOpen == false){
 			displayCard(event.target);
 		}else{
 			if(compareCard(event.target)){
-				console.log("card click different");
 				if(openCard.length>1){
 					if(openCard[0].children[0].classList[1] == openCard[1].children[0].classList[1] && openCard[0].id != openCard[1].id){
 							setTimeout(function(){makeMatch()},500);
@@ -146,9 +138,8 @@ function cardAction(event){
 	}
 }
 
-// function to show the card on click
+// Function to show the card on click
 function displayCard(card){
-	console.log("Card displayed!");
 	card.classList.add(OPEN_CARD);
 	card.classList.add(SHOW_CARD);
 	openCard.push(card);
@@ -158,7 +149,7 @@ function displayCard(card){
 	return;
 }
 
-//function to compare the cards
+//Function to compare the cards
 function compareCard(card){
 	if(card.classList.contains("fa")){
 		card =card.parentElement;
@@ -166,10 +157,8 @@ function compareCard(card){
 	if(openCard[0].id != card.id){
 		displayCard(card);
 	}else{
-		console.log("same card!");
 		return false;
 	}
-	console.log("not same card!");
 	return true;
 }
 
@@ -187,7 +176,6 @@ let star3List =star3.classList;
 
 //Function to remove old Rating (if exists)
 function removeOldRating(){
-	console.log("Removed Old Rating!");
 	if(star1List.contains(STAR)){
 	 		star1List.toggle(STAR);
  		}else if(star1List.contains(NO_STAR)){
@@ -207,7 +195,6 @@ function removeOldRating(){
 
 //Function to create Rating
 function createRating(){
-	console.log("Created Rating!");
  	removeOldRating();
  	if(gamecounter <=30 ){
  		// 3 star when gamecounter <= 30
@@ -234,7 +221,6 @@ function createRating(){
 
 //Function to remove Old card Elements
 function removeOldCard(){
-	console.log("Removed old cards");
 	for(let i=0;i<myCards.length;i++){
 		let oldCardEle = document.getElementById('card'+i);
 		oldCardEle.innerHTML="";
@@ -244,12 +230,10 @@ function removeOldCard(){
 
 //Function to remove matched cards
 function removeMatch(){
-	console.log("Removed matched cards");
 	if(matchedCards.length>0){
 		for(let matchedCard of matchedCards){
 			matchedCard.classList.remove(MATCH_CARD);
 		}
-		console.log(matchedCards.length);
 		matchedCards=[];
 	}
 }
@@ -257,7 +241,6 @@ function removeMatch(){
 
 //Function to reset the game.
 function reset(){
-	console.log("RESET CLICKED!");
 	if(isModalOpen){
 		isModalOpen=false;
 		toggleModal();
@@ -279,17 +262,13 @@ function reset(){
 
 //Function to store matched cards
 function makeMatch(){
-	console.log("Match found!");
 	openCard[0].classList.add(MATCH_CARD);
 	openCard[1].classList.add(MATCH_CARD);
-	//console.log("OpenCard: "+openCard[0].id)
-	//console.log("OpenCard: "+openCard[1].id)
 	openCard[0].removeEventListener("click",cardAction);
 	openCard[1].removeEventListener("click",cardAction);
 	matchedCards.push(openCard[0]);
 	matchedCards.push(openCard[1]);
 	hideCard();
-	//console.log("solvedCounter: "+solvedCounter);
 	solvedCounter+=2;
 	if(solvedCounter == myCards.length){
 		isModalOpen=true;		
@@ -300,7 +279,6 @@ function makeMatch(){
 
 //Function to hide cards
 function hideCard(){
-	console.log("Hide Cards!");
 	if(openCard.length>0){
 		openCard[0].classList.remove(OPEN_CARD);
 		openCard[0].classList.remove(SHOW_CARD);
@@ -316,7 +294,6 @@ function hideCard(){
 
 //Function to update the game moves
 function updateOnScreen(){
-	console.log("Update Moves!");
 	const updateMove =document.getElementById("moves");
 	if(gamecounter<10){
 		var counterText=" Move";
@@ -326,6 +303,7 @@ function updateOnScreen(){
 	updateMove.innerHTML=gamecounter+counterText;
 }
 
+//Function to update the game Timer
 function updateTimer(time){
 	const timer= document.getElementById("gametime");
 	var timerText="";
@@ -348,10 +326,10 @@ function updateTimer(time){
 	
 }
 
+//Function to start the game Timer
 function startTimer(startTime){
 	if(startTime){
 		setTimeout(function(){
-			// console.log("gametimer: "+gametimer);
 			if(solvedCounter < myCards.length){
 				gametimer+=1;
 				updateTimer(gametimer);				
