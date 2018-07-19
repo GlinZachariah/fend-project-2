@@ -1,7 +1,17 @@
 /*
  * Create a list that holds all of your cards
  */
-
+ createCards();
+//Function to create the cards
+function createCards(){
+	const cardSelector=document.querySelector('ul.deck');	
+	for(let i=0;i<=15;i++){
+		const card =document.createElement('li');
+		card.classList="card";
+		card.id="card"+i;
+		cardSelector.appendChild(card);
+	}
+}
  //List of the card values
  const starIcon = "fa fa-diamond";
  const anchorIcon = "fa fa-anchor";
@@ -71,6 +81,7 @@ function insertCard(event){
 	}
 	
 };
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 // Function to shuffle the cards
