@@ -1,5 +1,7 @@
 # Memory Game Project
 
+This is a simple memory game developed using JavaScript.The aim of the game is to find all the similar matches within the smallest number of moves.An instruction for the star rating is provided when the game is loaded.
+
 ## Table of Contents
 
 * [Instructions](#instructions)
@@ -7,14 +9,8 @@
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
-
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+Visit the link https://glinzachariah.github.io/fend-project-2/index.html to start playing.
 
 ## Contributing
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+This repository is the project done as a part of Udacity Front End Nanodegree programme.
